@@ -44,7 +44,7 @@ export default function ProfileLinkPage() {
   useEffect(() => { readLocal(); }, []);
 
   return (
-    <div className="mx-auto max-w-2xl pt-10 space-y-4">
+    <div className="mx-auto max-w-2xl pt-6 space-y-4 px-3 sm:px-4">
       <Card>
         <CardHeader>
           <CardTitle>Link your student profile</CardTitle>
@@ -52,20 +52,22 @@ export default function ProfileLinkPage() {
         <CardContent className="text-sm">
           <p className="text-muted-foreground">Provide your details to personalize your AI tutor.</p>
 
-          <div className="mt-4 rounded-lg border p-3 flex items-center gap-3">
+          <div className="mt-4 rounded-lg border p-3 flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="text-xs text-muted-foreground">Detected:</div>
-            <Badge variant="secondary">Class: {classStd ?? "—"}</Badge>
-            {email && <Badge variant="outline" className="hidden sm:inline">Email: {email}</Badge>}
-            <div className="ml-auto flex gap-2">
-              <Button size="sm" variant="outline" onClick={readLocal}>Refresh</Button>
-              <Button size="sm" onClick={syncFromServer} disabled={syncing}>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary">Class: {classStd ?? "—"}</Badge>
+              {email && <Badge variant="outline" className="hidden sm:inline">Email: {email}</Badge>}
+            </div>
+            <div className="ml-auto flex gap-2 w-full sm:w-auto">
+              <Button size="sm" variant="outline" onClick={readLocal} className="flex-1 sm:flex-none">Refresh</Button>
+              <Button size="sm" onClick={syncFromServer} disabled={syncing} className="flex-1 sm:flex-none">
                 {syncing ? "Syncing…" : "Sync from server"}
               </Button>
             </div>
           </div>
 
           <p className="mt-2 text-xs text-muted-foreground">
-            Saving updates both your device and the database. “Sync from server” re-reads the DB.
+            Saving updates both your device and the database. "Sync from server" re-reads the DB.
           </p>
         </CardContent>
       </Card>

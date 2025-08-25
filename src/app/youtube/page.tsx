@@ -113,55 +113,55 @@ export default function YouTubePage() {
     }
   };
 
-  const handleAsk = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErr(null);
-    if (!question.trim()) return;
-    if (!sessionId && !videoId) {
-      setErr("Load a video first.");
-      return;
-    }
+const handleAsk = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setErr(null);
+  if (!question.trim()) return;
+  if (!sessionId && !videoId) {
+    setErr("Load a video first.");
+    return;
+  }
 
-    const userMsg = question.trim();
-    setChat((c) => [...c, { role: "user", content: userMsg }]);
-    setQuestion("");
+  const userMsg = question.trim();
+  setChat((c) => [...c, { role: "user", content: userMsg }]);
+  setQuestion("");
 
-    const body: Record<string, any> = { question: userMsg };
-    if (sessionId) body.session_id = sessionId;
-    else if (videoId) body.video_id = videoId;
+  const body: Record<string, any> = { question: userMsg };
+  if (sessionId) body.session_id = sessionId;
+  else if (videoId) body.video_id = videoId;
 
-    try {
-      setAsking(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${ASK_ENDPOINT}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) {
-        const txt = await res.text();
-        try {
-          const j = JSON.parse(txt);
-          if (Array.isArray(j?.detail)) {
-            const msg = j.detail.map((d: any) => d.msg || JSON.stringify(d)).join("\n");
-            throw new Error(msg);
-          }
-          throw new Error(j.message || txt);
-        } catch {
-          throw new Error(txt || `Request failed (${res.status})`);
+  try {
+    setAsking(true);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${ASK_ENDPOINT}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      try {
+        const j = JSON.parse(txt);
+        if (Array.isArray(j?.detail)) {
+          const msg = j.detail.map((d: any) => d.msg || JSON.stringify(d)).join("\n");
+          throw new Error(msg);
         }
+        throw new Error(j.message || txt);
+      } catch {
+        throw new Error(txt || `Request failed (${res.status})`);
       }
-      const json: AskResp = await res.json();
-      setChat((c) => [...c, { role: "assistant", content: extractAnswer(json) }]);
-    } catch (e: any) {
-      setErr(e?.message || "Failed to get an answer.");
-    } finally {
-      setAsking(false);
     }
-  };
-
+    // Changed: Expect plain text response
+    const answerText = await res.text();
+    setChat((c) => [...c, { role: "assistant", content: answerText }]);
+  } catch (e: any) {
+    setErr(e?.message || "Failed to get an answer.");
+  } finally {
+    setAsking(false);
+  }
+};
   return (
     <div className="mx-auto max-w-6xl pt-6 grid gap-6 md:grid-cols-2">
       {/* LEFT: Loader + Transcript */}
