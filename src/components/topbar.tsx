@@ -1,89 +1,71 @@
 // src/components/topbar.tsx
 "use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import SiteLogo from "./site-logo";
 import { Button } from "@/components/ui/button";
-import UserProfile from "@/components/user-profile";
 import ThemeToggle from "@/components/theme-toggle";
-import ApiHealth from "@/components/api-health";
-import { LogIn, Menu } from "lucide-react";
 
-type Me = { full_name?: string; email?: string };
+function ApiHealthBadge() {
+  type State = "checking" | "up" | "down";
+  const [state, setState] = useState<State>("checking");
 
-export default function Topbar() {
-  const router = useRouter();
-  const [authed, setAuthed] = useState(false);
-  const [me, setMe] = useState<Me | null>(null);
-
-  useEffect(() => {
-    const check = () => setAuthed(!!Cookies.get("bb_token"));
-    check();
-    // keep it in sync after login/logout navigations
-    window.addEventListener("focus", check);
-    const id = window.setInterval(check, 5000);
-    return () => {
-      window.removeEventListener("focus", check);
-      clearInterval(id);
-    };
+  const check = useCallback(async () => {
+    setState("checking");
+    try {
+      const base = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const url = base ? `${base}/api/healthz` : `/api/bb/healthz`;
+      const res = await fetch(url, { cache: "no-store" });
+      setState(res.ok ? "up" : "down");
+    } catch {
+      setState("down");
+    }
   }, []);
 
-  // Load user data for profile indicator
   useEffect(() => {
-    if (!authed) return;
-    
-    const token = Cookies.get("bb_token");
-    if (!token) return;
-    
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    })
-      .then((r) => r.json())
-      .then(setMe)
-      .catch(() => {});
-  }, [authed]);
+    check();
+    const id = setInterval(check, 30000);
+    return () => clearInterval(id);
+  }, [check]);
+
+  const dot =
+    state === "checking" ? "bg-muted-foreground animate-pulse" :
+    state === "up" ? "bg-emerald-500" : "bg-red-500";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur">
-      <div className="flex h-14 items-center justify-between px-3 sm:px-4">
+    <Button variant="outline" size="sm" onClick={check} className="h-8 gap-2" title="Click to re-check API health">
+      <span className={`inline-block h-2.5 w-2.5 rounded-full ${dot}`} />
+      <span className="text-xs">{state === "checking" ? "Checking…" : state === "up" ? "API: Online" : "API: Offline"}</span>
+    </Button>
+  );
+}
+
+export default function Topbar({ className = "" }: { className?: string }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [authed, setAuthed] = useState(false);
+
+  // re-read cookie on route change & on mount
+  useEffect(() => { setAuthed(!!Cookies.get("bb_token")); }, [pathname]);
+
+  const logout = () => {
+    Cookies.remove("bb_token", { path: "/" });
+    router.replace("/login");
+    router.refresh();
+  };
+
+  return (
+    <header className={`w-full ${className}`}>
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <SiteLogo />
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Hide API health on very small screens */}
-          {authed && <div className="hidden sm:block"><ApiHealth /></div>}
-          <ThemeToggle />
-          
+        <div className="flex items-center gap-2">
+          {authed && <ApiHealthBadge />}
+          {authed && <ThemeToggle />}
           {authed ? (
-            <div className="flex items-center gap-2">
-              {/* Hide user profile on small screens */}
-              <div className="hidden md:block">
-                <UserProfile
-                  user={me}
-                  variant="compact"
-                  className="px-3 py-1.5 rounded-lg bg-muted/50"
-                />
-              </div>
-              {/* Show dashboard button on all screen sizes */}
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => router.push("/dashboard")}
-                className="text-muted-foreground hover:text-foreground text-xs sm:text-sm"
-              >
-                Dashboard
-              </Button>
-            </div>
+            <Button variant="destructive" onClick={logout}>Logout</Button>
           ) : (
-            <Button 
-              onClick={() => router.push("/login")} 
-              className="gap-1 sm:gap-2 text-xs sm:text-sm"
-              size="sm"
-            >
-              <LogIn className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Login</span>
-            </Button>
+            <Button onClick={() => router.push("/login")}>Login</Button>
           )}
         </div>
       </div>

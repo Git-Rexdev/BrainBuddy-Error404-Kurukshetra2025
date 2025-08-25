@@ -20,28 +20,52 @@ import { Label } from "@/components/ui/label";
 /** Final form values shape */
 type Values = { email: string; class_std: number };
 
-/** Zod schema with safe coercion string -> number (works on all Zod 3.x) */
+/** Zod schema with safe coercion string -> number, and range 5–10 */
 const Schema = z.object({
   email: z.string().email("Enter a valid email"),
   class_std: z.preprocess(
     (v) => (typeof v === "string" && v.trim() !== "" ? Number(v) : v),
-    z.number().int().min(1, "Min 1").max(12, "Max 12")
+    z.number().int().min(5, "Minimum class is 5").max(10, "Maximum class is 10")
   ),
 });
 
 /** Minimal custom resolver to avoid @hookform/resolvers version clashes */
 const zodRHFResolver: Resolver<Values> = async (values) => {
   const parsed = Schema.safeParse(values);
-  if (parsed.success) {
-    return { values: parsed.data, errors: {} };
-  }
-  const errors: Record<string, any> = {};
+  if (parsed.success) return { values: parsed.data, errors: {} };
+
+  const errors: Record<string, { type: string; message: string }> = {};
   for (const issue of parsed.error.issues) {
     const name = issue.path.join(".");
     errors[name] = { type: issue.code, message: issue.message };
   }
   return { values: {}, errors };
 };
+
+/** Parse common FastAPI validation errors to human messages */
+async function parseApiError(res: Response): Promise<string> {
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("application/json")) {
+    try {
+      const j = await res.json();
+      if (Array.isArray(j?.detail)) {
+        const msgs = j.detail.map((d: any) => {
+          const path = Array.isArray(d?.loc) ? d.loc.join(".") : "";
+          if (path.includes("class_std")) {
+            if (d?.type?.includes("less_than_equal") && d?.ctx?.le) return `Class must be ≤ ${d.ctx.le}.`;
+            if (d?.type?.includes("greater_than_equal") && d?.ctx?.ge) return `Class must be ≥ ${d.ctx.ge}.`;
+          }
+          return d?.msg ? String(d.msg) : "Invalid input.";
+        });
+        return msgs.join("\n");
+      }
+      if (typeof j?.detail === "string") return j.detail;
+    } catch {
+      /* fall through */
+    }
+  }
+  return (await res.text().catch(() => res.statusText)) || "Request failed.";
+}
 
 export default function ProfileLinkModal({
   open,
@@ -58,8 +82,8 @@ export default function ProfileLinkModal({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<Values>({
-    resolver: zodRHFResolver, // 👈 use our custom resolver
-    defaultValues: { email: "", class_std: 1 },
+    resolver: zodRHFResolver,
+    defaultValues: { email: "", class_std: 5 },
   });
 
   const [err, setErr] = React.useState<string | null>(null);
@@ -84,8 +108,8 @@ export default function ProfileLinkModal({
       );
 
       if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || `HTTP ${res.status}`);
+        const msg = await parseApiError(res);
+        throw new Error(msg);
       }
 
       // Write-through cache so other pages (Study Plan) see it instantly
@@ -141,14 +165,15 @@ export default function ProfileLinkModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="class_std">Class (1–12)</Label>
+            <Label htmlFor="class_std">Class (5–10)</Label>
             <Input
               id="class_std"
               type="number"
-              min={1}
-              max={12}
+              min={5}
+              max={10}
               {...register("class_std", { valueAsNumber: true })}
             />
+            <p className="text-xs text-muted-foreground">Supported classes: 5–10.</p>
             {errors.class_std && (
               <p className="text-sm text-red-500">{String(errors.class_std.message || "")}</p>
             )}
