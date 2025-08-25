@@ -21,6 +21,7 @@
 BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend and FastAPI backend that provides students with intelligent study assistance, personalized learning plans, and interactive AI tutoring. The platform combines cutting-edge AI technology with an intuitive user interface to create an engaging educational experience.
 
 ### Key Benefits
+
 - **Personalized Learning**: AI-driven study plans and recommendations
 - **24/7 AI Tutoring**: Round-the-clock academic support
 - **Multi-format Support**: Handles text, images, and various content types
@@ -33,6 +34,7 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend
 ### Core Learning Features
 
 #### 1. **AI Learning Assistant (EduChat)**
+
 - **Floating Widget**: Accessible on all pages via bottom-right button
 - **Dashboard Integration**: Embedded chat interface on dashboard page
 - **Smart Responses**: AI-powered answers to academic questions
@@ -40,42 +42,50 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend
 - **Message Expansion**: "Read More/Show Less" for long responses
 
 #### 2. **Study Planner**
+
 - Intelligent study schedule creation
 - Progress tracking and reminders
 - Adaptive planning based on performance
 
 #### 3. **Notes Summarizer**
+
 - AI-powered text summarization
 - Key points extraction
 - Study material condensation
 
 #### 4. **AI Tutor**
+
 - Personalized tutoring sessions
 - Subject-specific guidance
 - Interactive learning experiences
 
 #### 5. **Essay Grader**
+
 - Automated essay evaluation
 - Feedback and scoring
 - Improvement suggestions
 
 #### 6. **YouTube Transcript Generator**
+
 - Video content transcription
 - Educational content extraction
 - Study material creation
 
 #### 7. **OCR Doubt Solver**
+
 - Image-to-text conversion
 - Question extraction from images
 - AI-powered problem solving
 
 ### User Management
+
 - **Authentication System**: Secure login/registration
 - **Profile Management**: User information and preferences
 - **Session Handling**: Persistent login states
 - **Role-based Access**: Different features for different user types
 
 ### User Interface
+
 - **Responsive Design**: Mobile-first approach
 - **Dark/Light Theme**: Theme switching capability
 - **Modern UI Components**: Built with Shadcn/ui
@@ -84,6 +94,7 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend
 ## Tech Stack
 
 ### Frontend
+
 - **Next.js 15**: React framework with App Router
 - **React 19**: Modern React with hooks and context
 - **TypeScript**: Type-safe development
@@ -94,6 +105,7 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend
 - **KaTeX**: Mathematical expression rendering
 
 ### Backend
+
 - **FastAPI**: Modern Python web framework
 - **Python 3.8+**: Core programming language
 - **MongoDB**: NoSQL database with PyMongo
@@ -104,6 +116,7 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend
 - **Uvicorn**: ASGI server
 
 ### Development Tools
+
 - **ESLint**: Code quality and consistency
 - **PostCSS**: CSS processing
 - **Git**: Version control
@@ -204,6 +217,7 @@ brainbuddy-project/
 ## Getting Started
 
 ### Prerequisites
+
 - **Frontend**: Node.js 18+ and npm/yarn
 - **Backend**: Python 3.8+ and pip
 - **Database**: MongoDB instance
@@ -212,61 +226,62 @@ brainbuddy-project/
 ### Frontend Setup
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd 
    ```
-
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
    yarn install
    ```
-
 3. **Environment Setup**
    Create a `.env.local` file in the frontend directory:
+
    ```env
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
    ```
-
 4. **Run the development server**
+
    ```bash
    npm run dev
    # or
    yarn dev
    ```
-
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Backend Setup
 
 1. **Navigate to backend directory**
+
    ```bash
    cd backend
    ```
-
 2. **Create virtual environment**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
-
 4. **Environment Setup**
    Create a `.env` file in the backend directory:
+
    ```env
    MONGODB_URI=mongodb://localhost:27017
    DB_NAME=brainbuddy
    STORAGE_ROOT=./storage
    CORS_ALLOW_ORIGINS=http://localhost:3000
    ```
-
 5. **Run the backend server**
+
    ```bash
    uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
@@ -274,12 +289,14 @@ brainbuddy-project/
 ### Build for Production
 
 **Frontend:**
+
 ```bash
 cd 
 npm run dev
 ```
 
 **Backend:**
+
 ```bash
 cd backend
 uvicorn main:app --host 0.0.0.0 --port 8000
@@ -288,15 +305,18 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ## API Documentation
 
 ### Base URL
+
 - **Development**: `http://localhost:8000`
 - **Production**: Configure via environment variables
 
 ### Authentication Endpoints
+
 - `POST /auth/login` - User login
 - `POST /auth/register` - User registration
 - `GET /auth/me` - Get current user info
 
 ### AI Service Endpoints
+
 - `POST /educhat/chat` - AI chat responses
 - `POST /notes/summarize` - Text summarization
 - `POST /essay/analyze` - Essay evaluation
@@ -307,6 +327,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 - `POST /study/plan` - Study plan generation
 
 ### API Features
+
 - **CORS Support**: Cross-origin resource sharing
 - **JWT Authentication**: Secure token-based auth
 - **File Uploads**: Support for images and PDFs
@@ -314,7 +335,9 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 - **Error Handling**: Comprehensive error responses
 
 ### API Client
+
 The frontend uses a centralized API client (`src/lib/api.ts`) that handles:
+
 - Authentication headers
 - Error handling
 - Response formatting
@@ -325,6 +348,7 @@ The frontend uses a centralized API client (`src/lib/api.ts`) that handles:
 ### Core Components
 
 #### 1. **Layout Components**
+
 - **`layout.tsx`**: Root layout with sidebar, topbar, and main content
 - **`sidebar.tsx`**: Navigation sidebar with collapsible menu
 - **`sidebar-wrapper.tsx`**: Sidebar wrapper for responsive behavior
@@ -332,18 +356,21 @@ The frontend uses a centralized API client (`src/lib/api.ts`) that handles:
 - **`footer.tsx`**: Application footer with team credits
 
 #### 2. **AI Components**
+
 - **`edu-chat-widget.tsx`**: Main AI chat interface with dual modes
 - **`educhat-wrapper.tsx`**: Chat wrapper component for integration
 - **`plan-renderer.tsx`**: Study plan visualization
 - **`markdown.tsx`**: Rich text rendering for AI responses with KaTeX support
 
 #### 3. **User Components**
+
 - **`user-profile.tsx`**: User profile display with multiple variants
 - **`profile-link-modal.tsx`**: Profile linking interface
 - **`theme-toggle.tsx`**: Theme switching functionality
 - **`api-health.tsx`**: API status indicator
 
 #### 4. **UI Components**
+
 - **`ui/` folder**: Reusable Shadcn/ui components
 - **Custom styling**: Tailwind CSS utilities
 - **Responsive design**: Mobile-first approach
@@ -351,6 +378,7 @@ The frontend uses a centralized API client (`src/lib/api.ts`) that handles:
 ### Component Patterns
 
 #### **Props Interface**
+
 ```typescript
 type ComponentProps = {
   user?: User;
@@ -362,6 +390,7 @@ type ComponentProps = {
 ```
 
 #### **State Management**
+
 ```typescript
 const [state, setState] = useState<StateType>(initialValue);
 const [loading, setLoading] = useState(false);
@@ -369,6 +398,7 @@ const [error, setError] = useState<string | null>(null);
 ```
 
 #### **Event Handlers**
+
 ```typescript
 const handleAction = async () => {
   try {
@@ -386,17 +416,20 @@ const handleAction = async () => {
 ## Responsive Design
 
 ### Breakpoint System
+
 - **Mobile**: `< 640px` (sm)
 - **Tablet**: `640px - 1024px` (sm to lg)
 - **Desktop**: `> 1024px` (lg)
 
 ### Mobile-First Approach
+
 - **Touch-friendly**: 44px minimum touch targets
 - **Responsive navigation**: Collapsible sidebar on mobile
 - **Adaptive layouts**: Grid systems that stack on small screens
 - **Mobile menu**: Hamburger menu for mobile navigation
 
 ### Responsive Features
+
 - **Flexible grids**: Auto-adjusting column layouts
 - **Adaptive spacing**: Responsive margins and padding
 - **Mobile sidebar**: Full-screen overlay navigation
@@ -405,6 +438,7 @@ const handleAction = async () => {
 ## Authentication
 
 ### Authentication Flow
+
 1. **Login/Register**: User credentials submission
 2. **Token Generation**: JWT token creation and storage
 3. **Session Management**: Persistent login state
@@ -412,12 +446,14 @@ const handleAction = async () => {
 5. **Token Refresh**: Automatic token renewal
 
 ### Security Features
+
 - **JWT Tokens**: Secure authentication tokens
 - **HTTP-only Cookies**: Secure token storage
 - **Route Guards**: Protected route access
 - **Session Validation**: Server-side session verification
 
 ### User States
+
 - **Unauthenticated**: Limited access, login prompts
 - **Authenticated**: Full feature access
 - **Loading**: Authentication state verification
@@ -426,12 +462,14 @@ const handleAction = async () => {
 ## Theme System
 
 ### Theme Provider
+
 - **Context-based**: React context for theme state
 - **Persistent**: Local storage for theme preference
 - **System-aware**: Automatic system theme detection
 - **Smooth transitions**: CSS transitions for theme changes
 
 ### Theme Variables
+
 ```css
 :root {
   --background: 0 0% 100%;
@@ -443,6 +481,7 @@ const handleAction = async () => {
 ```
 
 ### Dark Mode Support
+
 - **Automatic switching**: System preference detection
 - **Manual toggle**: User-controlled theme switching
 - **Persistent preference**: Remembered across sessions
@@ -451,12 +490,15 @@ const handleAction = async () => {
 ## Development
 
 ### Project Structure
+
 The project follows a monorepo structure with separate frontend and backend directories:
+
 - **`frontend/`**: Next.js application with TypeScript
 - **`backend/`**: FastAPI application with Python
 - **Root level**: Configuration files and documentation
 
 ### Code Quality
+
 - **ESLint**: Code linting and formatting
 - **TypeScript**: Type safety and IntelliSense (Frontend)
 - **Python**: Type hints and linting (Backend)
@@ -465,6 +507,7 @@ The project follows a monorepo structure with separate frontend and backend dire
 ### Development Scripts
 
 **Frontend Scripts:**
+
 ```json
 {
   "scripts": {
@@ -477,6 +520,7 @@ The project follows a monorepo structure with separate frontend and backend dire
 ```
 
 **Backend Scripts:**
+
 ```bash
 # Run development server
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
@@ -489,6 +533,7 @@ python -m pytest
 ```
 
 ### File Naming Conventions
+
 - **Frontend Components**: PascalCase (`UserProfile.tsx`)
 - **Frontend Pages**: kebab-case (`study-plan/page.tsx`)
 - **Frontend Utilities**: camelCase (`api.ts`)
@@ -497,6 +542,7 @@ python -m pytest
 - **Constants**: UPPER_SNAKE_CASE (`API_ENDPOINTS`)
 
 ### Component Structure
+
 ```typescript
 // 1. Imports
 import { useState, useEffect } from "react";
@@ -521,6 +567,7 @@ export default function Component({ prop }: ComponentProps) {
 ```
 
 ### Backend Structure
+
 ```python
 # 1. Imports
 from fastapi import FastAPI, Depends
@@ -541,6 +588,7 @@ async def create_user(user: UserModel):
 ## Contributing
 
 ### Development Workflow
+
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
@@ -548,6 +596,7 @@ async def create_user(user: UserModel):
 5. **Open** a Pull Request
 
 ### Code Standards
+
 - **TypeScript**: Strict type checking enabled
 - **ESLint**: Follow linting rules
 - **Testing**: Write tests for new features
@@ -555,6 +604,7 @@ async def create_user(user: UserModel):
 - **Accessibility**: Ensure ARIA compliance
 
 ### Pull Request Guidelines
+
 - **Clear description** of changes
 - **Screenshots** for UI changes
 - **Testing instructions** for new features
@@ -570,15 +620,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Team Error 404** - A group of passionate developers building the future of education technology.
 
 ### Project Structure
+
 This project is organized as a monorepo containing:
+
 - **Frontend**: Modern Next.js application with AI-powered learning features
 - **Backend**: FastAPI-based API server with AI model integration
 - **Shared**: Common utilities and documentation
 
 ### Contact
-- **Project Link**: [https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025)
-- **Issues**: [GitHub Issues](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025/discussions)
+
+- **Project Link**: [https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025](https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025)
+- **Issues**: [GitHub Issues](https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025/discussions)
 
 ---
 
