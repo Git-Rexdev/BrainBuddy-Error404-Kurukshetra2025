@@ -9,7 +9,7 @@
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [API Integration](#api-integration)
+- [API Documentation](#api-documentation)
 - [Component Architecture](#component-architecture)
 - [Responsive Design](#responsive-design)
 - [Authentication](#authentication)
@@ -18,7 +18,7 @@
 
 ## Overview
 
-BrainBuddy is a modern, AI-powered learning platform built with Next.js that provides students with intelligent study assistance, personalized learning plans, and interactive AI tutoring. The platform combines cutting-edge AI technology with an intuitive user interface to create an engaging educational experience.
+BrainBuddy is a modern, AI-powered learning platform built with Next.js frontend and FastAPI backend that provides students with intelligent study assistance, personalized learning plans, and interactive AI tutoring. The platform combines cutting-edge AI technology with an intuitive user interface to create an engaging educational experience.
 
 ### Key Benefits
 - **Personalized Learning**: AI-driven study plans and recommendations
@@ -26,6 +26,7 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js that pro
 - **Multi-format Support**: Handles text, images, and various content types
 - **Mobile-First Design**: Responsive interface for all devices
 - **Real-time Assistance**: Instant help with homework and study questions
+- **Full-Stack Solution**: Complete frontend and backend implementation
 
 ## Features
 
@@ -84,106 +85,135 @@ BrainBuddy is a modern, AI-powered learning platform built with Next.js that pro
 
 ### Frontend
 - **Next.js 15**: React framework with App Router
-- **React 18**: Modern React with hooks and context
+- **React 19**: Modern React with hooks and context
 - **TypeScript**: Type-safe development
 - **Tailwind CSS**: Utility-first CSS framework
 - **Shadcn/ui**: Modern component library
+- **React Hook Form**: Form handling and validation
+- **Zod**: Schema validation
+- **KaTeX**: Mathematical expression rendering
 
-### Backend Integration
-- **RESTful APIs**: External API integration
-- **Authentication**: JWT token-based auth
-- **State Management**: React hooks and context
-- **HTTP Client**: Fetch API with error handling
+### Backend
+- **FastAPI**: Modern Python web framework
+- **Python 3.8+**: Core programming language
+- **MongoDB**: NoSQL database with PyMongo
+- **JWT**: JSON Web Token authentication
+- **LangChain**: AI/LLM integration framework
+- **Google AI**: Generative AI services
+- **Hugging Face**: Open-source AI models
+- **Uvicorn**: ASGI server
 
 ### Development Tools
 - **ESLint**: Code quality and consistency
 - **PostCSS**: CSS processing
-- **Vite**: Fast development server
 - **Git**: Version control
+- **Docker**: Containerization support
 
 ## Project Structure
 
 ```
-brainbuddy-frontend/
-├── public/                          # Static assets
-│   ├── brainbuddy.png              # Main logo
-│   ├── file.svg                    # File icon
-│   ├── globe.svg                   # Globe icon
-│   ├── next.svg                    # Next.js logo
-│   ├── vercel.svg                  # Vercel logo
-│   └── window.svg                  # Window icon
-├── src/                            # Source code
-│   ├── app/                        # Next.js App Router
-│   │   ├── (auth)/                # Authentication routes
-│   │   │   ├── login/             # Login page
-│   │   │   └── register/          # Registration page
-│   │   ├── dashboard/             # Main dashboard
-│   │   ├── doubt/                 # OCR doubt solver
-│   │   ├── essay-grader/          # Essay grading tool
-│   │   ├── profile-link/          # Profile linking
-│   │   ├── study-plan/            # Study planning
-│   │   ├── summarizer/            # Notes summarizer
-│   │   ├── tutor/                 # AI tutor interface
-│   │   ├── youtube/               # YouTube transcript generator
-│   │   ├── globals.css            # Global styles
-│   │   ├── layout.tsx             # Root layout
-│   │   └── page.tsx               # Home page
-│   ├── components/                 # Reusable components
-│   │   ├── ui/                    # Base UI components
-│   │   │   ├── accordion.tsx      # Collapsible sections
-│   │   │   ├── alert.tsx          # Alert notifications
-│   │   │   ├── avatar.tsx         # User avatars
-│   │   │   ├── badge.tsx          # Status badges
-│   │   │   ├── button.tsx         # Interactive buttons
-│   │   │   ├── card.tsx           # Content containers
-│   │   │   ├── dialog.tsx         # Modal dialogs
-│   │   │   ├── dropdown-menu.tsx  # Dropdown menus
-│   │   │   ├── form.tsx           # Form components
-│   │   │   ├── input.tsx          # Input fields
-│   │   │   ├── label.tsx          # Form labels
-│   │   │   ├── select.tsx         # Selection dropdowns
-│   │   │   ├── separator.tsx      # Visual separators
-│   │   │   ├── tabs.tsx           # Tabbed interfaces
-│   │   │   └── textarea.tsx       # Multi-line inputs
-│   │   ├── api-health.tsx         # API status indicator
-│   │   ├── edu-chat-widget.tsx    # AI chat interface
-│   │   ├── footer.tsx             # Application footer
-│   │   ├── markdown.tsx           # Markdown renderer
-│   │   ├── plan-renderer.tsx      # Study plan display
-│   │   ├── profile-link-modal.tsx # Profile linking modal
-│   │   ├── sidebar.tsx            # Navigation sidebar
-│   │   ├── site-logo.tsx          # Brand logo component
-│   │   ├── theme-provider.tsx     # Theme context provider
-│   │   ├── theme-toggle.tsx       # Theme switching
-│   │   ├── topbar.tsx             # Top navigation bar
-│   │   └── user-profile.tsx       # User profile display
-│   └── lib/                       # Utility libraries
-│       ├── api.ts                 # API client functions
-│       ├── profile.ts             # Profile management
-│       └── utils.ts               # Helper functions
-├── components.json                 # Shadcn/ui configuration
-├── eslint.config.mjs              # ESLint configuration
-├── middleware.ts                   # Next.js middleware
-├── next.config.ts                  # Next.js configuration
-├── package.json                    # Dependencies and scripts
-├── postcss.config.js              # PostCSS configuration
-├── tailwind.config.js             # Tailwind CSS configuration
-└── tsconfig.json                   # TypeScript configuration
+brainbuddy-project/
+├── frontend/                        # Next.js frontend application
+│   ├── public/                      # Static assets
+│   │   ├── brainbuddy.png          # Main logo
+│   │   ├── file.svg                # File icon
+│   │   ├── globe.svg               # Globe icon
+│   │   ├── next.svg                # Next.js logo
+│   │   ├── vercel.svg              # Vercel logo
+│   │   └── window.svg              # Window icon
+│   ├── src/                        # Source code
+│   │   ├── app/                    # Next.js App Router
+│   │   │   ├── (auth)/            # Authentication routes
+│   │   │   │   ├── login/         # Login page
+│   │   │   │   └── register/      # Registration page
+│   │   │   ├── dashboard/         # Main dashboard
+│   │   │   ├── doubt/             # OCR doubt solver
+│   │   │   ├── essay-grader/      # Essay grading tool
+│   │   │   ├── profile-demo/      # Profile demonstration
+│   │   │   ├── profile-link/      # Profile linking
+│   │   │   ├── study-plan/        # Study planning
+│   │   │   ├── summarizer/        # Notes summarizer
+│   │   │   ├── tutor/             # AI tutor interface
+│   │   │   ├── youtube/           # YouTube transcript generator
+│   │   │   ├── globals.css        # Global styles
+│   │   │   ├── layout.tsx         # Root layout
+│   │   │   └── page.tsx           # Home page
+│   │   ├── components/            # Reusable components
+│   │   │   ├── ui/                # Base UI components
+│   │   │   │   ├── accordion.tsx  # Collapsible sections
+│   │   │   │   ├── alert.tsx      # Alert notifications
+│   │   │   │   ├── avatar.tsx     # User avatars
+│   │   │   │   ├── badge.tsx      # Status badges
+│   │   │   │   ├── button.tsx     # Interactive buttons
+│   │   │   │   ├── card.tsx       # Content containers
+│   │   │   │   ├── dialog.tsx     # Modal dialogs
+│   │   │   │   ├── dropdown-menu.tsx # Dropdown menus
+│   │   │   │   ├── form.tsx       # Form components
+│   │   │   │   ├── input.tsx      # Input fields
+│   │   │   │   ├── label.tsx      # Form labels
+│   │   │   │   ├── select.tsx     # Selection dropdowns
+│   │   │   │   ├── separator.tsx  # Visual separators
+│   │   │   │   ├── tabs.tsx       # Tabbed interfaces
+│   │   │   │   └── textarea.tsx   # Multi-line inputs
+│   │   │   ├── api-health.tsx     # API status indicator
+│   │   │   ├── edu-chat-widget.tsx # AI chat interface
+│   │   │   ├── educhat-wrapper.tsx # Chat wrapper component
+│   │   │   ├── footer.tsx         # Application footer
+│   │   │   ├── markdown.tsx       # Markdown renderer
+│   │   │   ├── plan-renderer.tsx  # Study plan display
+│   │   │   ├── profile-link-modal.tsx # Profile linking modal
+│   │   │   ├── sidebar.tsx        # Navigation sidebar
+│   │   │   ├── sidebar-wrapper.tsx # Sidebar wrapper
+│   │   │   ├── site-logo.tsx      # Brand logo component
+│   │   │   ├── theme-provider.tsx # Theme context provider
+│   │   │   ├── theme-toggle.tsx   # Theme switching
+│   │   │   ├── topbar.tsx         # Top navigation bar
+│   │   │   └── user-profile.tsx   # User profile display
+│   │   └── lib/                   # Utility libraries
+│   │       ├── api.ts             # API client functions
+│   │       ├── profile.ts         # Profile management
+│   │       └── utils.ts           # Helper functions
+│   ├── components.json             # Shadcn/ui configuration
+│   ├── eslint.config.mjs          # ESLint configuration
+│   ├── middleware.ts               # Next.js middleware
+│   ├── next.config.ts              # Next.js configuration
+│   ├── package.json                # Dependencies and scripts
+│   ├── postcss.config.js          # PostCSS configuration
+│   ├── tailwind.config.js         # Tailwind CSS configuration
+│   └── tsconfig.json              # TypeScript configuration
+├── backend/                        # FastAPI backend application
+│   ├── models/                     # Data models and schemas
+│   ├── routes/                     # API route handlers
+│   │   ├── auth.py                # Authentication endpoints
+│   │   ├── doubt.py               # OCR doubt solver
+│   │   ├── essay.py               # Essay grading
+│   │   ├── notes.py               # Notes summarization
+│   │   ├── study.py               # Study planning
+│   │   ├── ytchat.py              # YouTube transcript
+│   │   ├── aitutor.py             # AI tutor
+│   │   └── educhat.py             # Educational chat
+│   ├── services/                   # Business logic services
+│   ├── uploads/                    # File upload storage
+│   ├── main.py                     # FastAPI application entry
+│   ├── requirements.txt            # Python dependencies
+│   └── .gitignore                 # Backend git ignore
+├── .gitignore                      # Root git ignore
+└── README.md                       # Project documentation
 ```
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn package manager
-- Git for version control
+- **Frontend**: Node.js 18+ and npm/yarn
+- **Backend**: Python 3.8+ and pip
+- **Database**: MongoDB instance
+- **Git**: Version control
 
-### Installation
+### Frontend Setup
 
-1. **Clone the repository**
+1. **Navigate to frontend directory**
    ```bash
-   git clone https://github.com/your-username/brainbuddy-frontend.git
-   cd brainbuddy-frontend
+   cd 
    ```
 
 2. **Install dependencies**
@@ -194,9 +224,9 @@ brainbuddy-frontend/
    ```
 
 3. **Environment Setup**
-   Create a `.env.local` file in the root directory:
+   Create a `.env.local` file in the frontend directory:
    ```env
-   NEXT_PUBLIC_API_BASE_URL=https://your-api-domain.com
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
    ```
 
 4. **Run the development server**
@@ -209,29 +239,82 @@ brainbuddy-frontend/
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+### Backend Setup
+
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
+
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Environment Setup**
+   Create a `.env` file in the backend directory:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017
+   DB_NAME=brainbuddy
+   STORAGE_ROOT=./storage
+   CORS_ALLOW_ORIGINS=http://localhost:3000
+   ```
+
+5. **Run the backend server**
+   ```bash
+   uvicorn main:app --reload --host 0.0.0.0 --port 8000
+   ```
+
 ### Build for Production
 
+**Frontend:**
 ```bash
-npm run build
-npm start
+cd 
+npm run dev
 ```
 
-## API Integration
+**Backend:**
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+## API Documentation
+
+### Base URL
+- **Development**: `http://localhost:8000`
+- **Production**: Configure via environment variables
 
 ### Authentication Endpoints
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `GET /api/auth/me` - Get current user info
+- `POST /auth/login` - User login
+- `POST /auth/register` - User registration
+- `GET /auth/me` - Get current user info
 
 ### AI Service Endpoints
-- `POST /api/educhat/chat` - AI chat responses
-- `POST /api/summarizer` - Text summarization
-- `POST /api/essay-grader` - Essay evaluation
-- `POST /api/ocr-doubt` - Image processing
-- `POST /api/youtube-transcript` - Video transcription
+- `POST /educhat/chat` - AI chat responses
+- `POST /notes/summarize` - Text summarization
+- `POST /essay/analyze` - Essay evaluation
+- `POST /doubt/solve` - Image processing and doubt solving
+- `POST /ytchat/load` - YouTube video loading
+- `POST /ytchat/ask` - YouTube video questions
+- `POST /aitutor/ask` - AI tutor interactions
+- `POST /study/plan` - Study plan generation
+
+### API Features
+- **CORS Support**: Cross-origin resource sharing
+- **JWT Authentication**: Secure token-based auth
+- **File Uploads**: Support for images and PDFs
+- **Real-time Processing**: AI model integration
+- **Error Handling**: Comprehensive error responses
 
 ### API Client
-The application uses a centralized API client (`src/lib/api.ts`) that handles:
+The frontend uses a centralized API client (`src/lib/api.ts`) that handles:
 - Authentication headers
 - Error handling
 - Response formatting
@@ -244,18 +327,21 @@ The application uses a centralized API client (`src/lib/api.ts`) that handles:
 #### 1. **Layout Components**
 - **`layout.tsx`**: Root layout with sidebar, topbar, and main content
 - **`sidebar.tsx`**: Navigation sidebar with collapsible menu
+- **`sidebar-wrapper.tsx`**: Sidebar wrapper for responsive behavior
 - **`topbar.tsx`**: Top navigation with logo, theme toggle, and user info
 - **`footer.tsx`**: Application footer with team credits
 
 #### 2. **AI Components**
 - **`edu-chat-widget.tsx`**: Main AI chat interface with dual modes
+- **`educhat-wrapper.tsx`**: Chat wrapper component for integration
 - **`plan-renderer.tsx`**: Study plan visualization
-- **`markdown.tsx`**: Rich text rendering for AI responses
+- **`markdown.tsx`**: Rich text rendering for AI responses with KaTeX support
 
 #### 3. **User Components**
 - **`user-profile.tsx`**: User profile display with multiple variants
 - **`profile-link-modal.tsx`**: Profile linking interface
 - **`theme-toggle.tsx`**: Theme switching functionality
+- **`api-health.tsx`**: API status indicator
 
 #### 4. **UI Components**
 - **`ui/` folder**: Reusable Shadcn/ui components
@@ -364,29 +450,50 @@ const handleAction = async () => {
 
 ## Development
 
+### Project Structure
+The project follows a monorepo structure with separate frontend and backend directories:
+- **`frontend/`**: Next.js application with TypeScript
+- **`backend/`**: FastAPI application with Python
+- **Root level**: Configuration files and documentation
+
 ### Code Quality
 - **ESLint**: Code linting and formatting
-- **TypeScript**: Type safety and IntelliSense
-- **Prettier**: Code formatting consistency
+- **TypeScript**: Type safety and IntelliSense (Frontend)
+- **Python**: Type hints and linting (Backend)
 - **Git hooks**: Pre-commit code quality checks
 
 ### Development Scripts
+
+**Frontend Scripts:**
 ```json
 {
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "eslint"
   }
 }
 ```
 
+**Backend Scripts:**
+```bash
+# Run development server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests (if available)
+python -m pytest
+```
+
 ### File Naming Conventions
-- **Components**: PascalCase (`UserProfile.tsx`)
-- **Pages**: kebab-case (`study-plan/page.tsx`)
-- **Utilities**: camelCase (`api.ts`)
+- **Frontend Components**: PascalCase (`UserProfile.tsx`)
+- **Frontend Pages**: kebab-case (`study-plan/page.tsx`)
+- **Frontend Utilities**: camelCase (`api.ts`)
+- **Backend Routes**: snake_case (`auth.py`)
+- **Backend Models**: snake_case (`user_model.py`)
 - **Constants**: UPPER_SNAKE_CASE (`API_ENDPOINTS`)
 
 ### Component Structure
@@ -411,6 +518,24 @@ export default function Component({ prop }: ComponentProps) {
   // 7. Render
   return <div>{/* JSX */}</div>;
 }
+```
+
+### Backend Structure
+```python
+# 1. Imports
+from fastapi import FastAPI, Depends
+from pydantic import BaseModel
+
+# 2. Models
+class UserModel(BaseModel):
+    username: str
+    email: str
+
+# 3. Routes
+@app.post("/users/")
+async def create_user(user: UserModel):
+    # 4. Business logic
+    return {"message": "User created", "user": user}
 ```
 
 ## Contributing
@@ -444,10 +569,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Team Error 404** - A group of passionate developers building the future of education technology.
 
+### Project Structure
+This project is organized as a monorepo containing:
+- **Frontend**: Modern Next.js application with AI-powered learning features
+- **Backend**: FastAPI-based API server with AI model integration
+- **Shared**: Common utilities and documentation
+
 ### Contact
-- **Project Link**: [https://github.com/your-username/brainbuddy-frontend](https://github.com/your-username/brainbuddy-frontend)
-- **Issues**: [GitHub Issues](https://github.com/your-username/brainbuddy-frontend/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/brainbuddy-frontend/discussions)
+- **Project Link**: [https://github.com/Git-RexDev/BrainBuddy-Error404-Kurukshetra2025](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025)
+- **Issues**: [GitHub Issues](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/BrainBuddy-Error404-Kurukshetra2025/discussions)
 
 ---
 
